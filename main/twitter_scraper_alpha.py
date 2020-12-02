@@ -52,6 +52,8 @@ def get_stock_data(api, company_name="Palantir", ticker="PLTR", ipo_date='2020-0
 	ipo_mkt_open = ipo_dt + datetime.timedelta(hours=13, minutes=30)
 	ipo_mkt_open_str = ipo_mkt_open.strftime('%Y%m%d%H%M')
 
+
+
 	query_str = f'({company_name} OR "${ticker}") IPO lang:en'
 
 	tweets_items = tweepy.Cursor(api.search_full_archive,environment_name="pltrscrape", query=query_str, fromDate=ipo_two_prev_day_str, toDate=ipo_mkt_open_str, maxResults=numTweets).items(numTweets)
@@ -67,17 +69,28 @@ def get_stock_data(api, company_name="Palantir", ticker="PLTR", ipo_date='2020-0
 			json.dump(status._json, outfile)
 	print(status_count)
 
-def extend_scrape_results(api, prev_final_timestamp, company_name="Palantir", ticker="PLTR", ipo_date='2020-09-30', extend_by=100):
+def extend_scrape_results(api, company_name="Palantir", ticker="PLTR", extend_by=100):
 	DIR_PATH = os.path.dirname(os.path.abspath(__file__ + "../../"))
 	SAVE_PATH = os.path.join(DIR_PATH, f"output/{ticker}/")
 
 	prev_results = sorted(os.listdir(SAVE_PATH))
-	if 'master.json' in prev_results:
-		prev_results.remove('master.json')
+	prev_results = [x for x in prev_results if (x.endswith(".json") and x[:-5].isdigit())]
+
+	final_label = str(max([int(x[:-5]) for x in prev_results]))
+
+	prev_final_json_path = os.path.join(SAVE_PATH, final_label + ".json")
+	with open(prev_final_json_path) as prev_final_json:
+		prev_final_data = json.load(prev_final_json)
+	prev_final_timsestamp = prev_final_data["created_at"]
+
+	prev_final_timestamp = datetime.datetime.strptime(prev_final_timsestamp, "%a %b %d %H:%M:%S +0000 %Y")
+
+
+
 	status_count = len(prev_results)
 
 	prev_final_timestamp_str = prev_final_timestamp.strftime('%Y%m%d%H%M')
-	adjusted_from = prev_final_timestamp - datetime.timedelta(days=2)
+	adjusted_from = prev_final_timestamp - datetime.timedelta(days=5)
 	adjusted_from_str = adjusted_from.strftime('%Y%m%d%H%M')
 
 	print(prev_final_timestamp_str)
