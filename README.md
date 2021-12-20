@@ -28,3 +28,6 @@
 - Successful prediction of stocks with little controversy, i.e. products and services that can be measured at surface-level.
   - Helps explain inconsistencies in PLTR prediction due to ICE controversy.
 - First-day price signal estimation using Twitter sentiments is a better performing indicator than comparables, and is reliable.
+
+## Project Presentation
+![Project Poster Image](https://github.com/tkShir/cs591_sns_ipo/blob/master/image.jpg?raw=true)
