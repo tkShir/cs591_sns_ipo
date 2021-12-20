@@ -30,4 +30,4 @@
 - First-day price signal estimation using Twitter sentiments is a better performing indicator than comparables, and is reliable.
 
 ## Project Presentation
-![Project Poster Image](https://github.com/tkShir/cs591_sns_ipo/blob/master/image.jpg?raw=true)
+![Project Poster Image](https://github.com/tkShir/cs591_sns_ipo/blob/master/Bryant_Lee_Shirono_IPO.png?raw=true)
